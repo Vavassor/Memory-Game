@@ -1,7 +1,24 @@
+main {
+  display: grid;
+  grid-template-areas:
+    ". game .";
+  grid-template-columns: 1fr 600px 1fr;
+}
+
+
 .card-container {
-  display: flex;
-  width: 800px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-gap: 1em;
+  padding: 0 1em;
+}
+
+.game-card img {
+  display: block;
+  width: 100%;
+}
+
+.game-container {
+  grid-area: game;
 }
 
 .indicator {
@@ -14,8 +31,31 @@
 
 .indicator-panel {
   display: flex;
+  justify-content: center;
+  padding: 1em;
 }
 
 .indicator-value {
   font-weight: bold;
+}
+
+
+@media only screen and (min-width: 800px) {
+  main {
+    grid-template-areas:
+      ". game .";
+    grid-template-columns: 1fr 800px 1fr;
+  }
+}
+
+@media (orientation: portrait) {
+  .card-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (orientation: landscape) {
+  .card-container {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
 }
