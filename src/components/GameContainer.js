@@ -1,4 +1,5 @@
 import React from "react";
+import EndScreen from "./EndScreen";
 import GameCard from "./GameCard";
 import IndicatorPanel from "./IndicatorPanel";
 
@@ -36,6 +37,7 @@ class GameContainer extends React.Component {
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleRetry = this.handleRetry.bind(this);
   }
 
   guessCorrect(cards, card) {
@@ -56,43 +58,60 @@ class GameContainer extends React.Component {
     const cards = this.state.cards;
     const card = cards.find(card => card.id === id);
 
+    const winScore = cards.length;
+
     const alreadyGuessed = card.guessed;
     if (alreadyGuessed) {
-      this.lose();
+      this.resetAndSwitchScreen("loss");
+    } else if (this.state.score + 1 === winScore) {
+      const score = this.state.score + 1;
+      this.setState({
+        score: score,
+        highScore: score,
+      });
+      this.resetAndSwitchScreen("win");
     } else {
       this.guessCorrect(cards, card);
     }
   }
 
-  lose() {
-    const cards = this.state.cards;
-    for (const card of cards) {
-      card.guessed = false;
-    }
-
+  handleRetry() {
     this.setState({
-      cards: shuffle(cards),
       score: 0,
+      screen: "play",
     });
   }
 
   render() {
+    let screen;
+    switch (this.state.screen) {
+      case "loss":
+        screen = this.renderLossScreen();
+        break;
+
+      default:
+      case "play":
+        screen = this.renderCardContainer();
+        break;
+
+      case "win":
+        screen = this.renderWinScreen();
+        break;
+    }
+
     return (
       <div className="game-container">
         <IndicatorPanel
           score={this.state.score}
           highScore={this.state.highScore}
         />
-        
-        <div className="card-container">
-          {this.renderCards()}
-        </div>
+        {screen}
       </div>
     );
   }
 
-  renderCards() {
-    return this.state.cards.map((card) => {
+  renderCardContainer() {
+    const cards = this.state.cards.map((card) => {
       return (
         <GameCard
           handleClick={this.handleClick}
@@ -101,7 +120,45 @@ class GameContainer extends React.Component {
           image={card.image}
         />
       );
-    })
+    });
+
+    return (
+      <div className="card-container">
+        {cards}
+      </div>
+    );
+  }
+
+  renderLossScreen() {
+    return (
+      <EndScreen
+        message="You lose!"
+        handleRetry={this.handleRetry}
+        score={this.state.score}
+      />
+    );
+  }
+
+  renderWinScreen() {
+    return (
+      <EndScreen
+        message="You win!"
+        handleRetry={this.handleRetry}
+        score={this.state.score}
+      />
+    );
+  }
+
+  resetAndSwitchScreen(screen) {
+    const cards = this.state.cards;
+    for (const card of cards) {
+      card.guessed = false;
+    }
+
+    this.setState({
+      cards: shuffle(cards),
+      screen: screen,
+    });
   }
 }
 
