@@ -1,5 +1,21 @@
-main {
+.card-container {
   display: flex;
   width: 800px;
   flex-wrap: wrap;
+}
+
+.indicator {
+  margin-right: 1em;
+}
+
+.indicator:last-child {
+  margin-right: 0;
+}
+
+.indicator-panel {
+  display: flex;
+}
+
+.indicator-value {
+  font-weight: bold;
 }
