@@ -1,3 +1,8 @@
+header {
+  text-align: center;
+}
+
+
 .card-container {
   display: grid;
   grid-gap: 1em;
@@ -5,14 +10,28 @@
   padding: 0 1em;
 }
 
+.end-screen {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  justify-content: center;
+  text-align: center;
+}
+
 .game-card {
+  background-color: transparent;
+  border: none;
+  display: block;
   min-height: 0;
   min-width: 0;
   max-width: 30vh;
   overflow: hidden;
+  padding: 0;
+  text-align: center;
 }
 
-.game-card img {
+.game-card-image {
   display: block;
 }
 
@@ -41,13 +60,31 @@
   font-weight: bold;
 }
 
+.instructions {
+  background-color: #efefef;
+  padding: 2em;
+}
+
+.retry {
+  border-radius: .3em;
+  border: none;
+  font-size: 1em;
+  padding: .375em .75em;
+}
+
+.end-screen-indicator {
+  margin-right: 0;
+  padding-bottom: 1em;
+}
+
+
 @media (orientation: portrait) {
   .card-container {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(4, 1fr);
   }
 
-  .game-card img {
+  .game-card-image {
     width: 100%;
   }
 }
@@ -58,7 +95,7 @@
     grid-template-rows: repeat(3, 1fr);
   }
 
-  .game-card img {
+  .game-card-image {
     height: 100%;
   }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import EndScreen from "./EndScreen";
-import GameCard from "./GameCard";
+import GameCardContainer from "./GameCardContainer";
 import IndicatorPanel from "./IndicatorPanel";
 
 function shuffle(array) {
@@ -21,18 +21,18 @@ class GameContainer extends React.Component {
       highScore: 0,
       score: 0,
       cards: [
-        {id: 0, image: "http://lorempixel.com/output/animals-q-c-200-200-4.jpg", guessed: false},
-        {id: 1, image: "http://lorempixel.com/output/animals-q-c-200-200-2.jpg", guessed: false},
-        {id: 2, image: "http://lorempixel.com/output/animals-q-c-200-200-5.jpg", guessed: false},
-        {id: 3, image: "http://lorempixel.com/output/animals-q-c-200-200-3.jpg", guessed: false},
-        {id: 4, image: "http://lorempixel.com/output/animals-q-c-200-200-1.jpg", guessed: false},
-        {id: 5, image: "http://lorempixel.com/output/animals-q-c-200-200-6.jpg", guessed: false},
-        {id: 6, image: "http://lorempixel.com/output/animals-q-c-200-200-7.jpg", guessed: false},
-        {id: 7, image: "http://lorempixel.com/output/animals-q-c-200-200-10.jpg", guessed: false},
-        {id: 8, image: "http://lorempixel.com/output/animals-q-c-200-200-8.jpg", guessed: false},
-        {id: 9, image: "http://lorempixel.com/output/animals-q-c-200-200-9.jpg", guessed: false},
-        {id: 10, image: "http://lorempixel.com/output/nature-q-c-200-200-3.jpg", guessed: false},
-        {id: 11, image: "http://lorempixel.com/output/nature-q-c-200-200-2.jpg", guessed: false},
+        {id: 0, image: "http://lorempixel.com/output/animals-q-c-200-200-4.jpg", guessed: false, contentDescription: "Giraffe"},
+        {id: 1, image: "http://lorempixel.com/output/animals-q-c-200-200-2.jpg", guessed: false, contentDescription: "Gorilla"},
+        {id: 2, image: "http://lorempixel.com/output/animals-q-c-200-200-5.jpg", guessed: false, contentDescription: "Deer"},
+        {id: 3, image: "http://lorempixel.com/output/animals-q-c-200-200-3.jpg", guessed: false, contentDescription: "Tiger"},
+        {id: 4, image: "http://lorempixel.com/output/animals-q-c-200-200-1.jpg", guessed: false, contentDescription: "Rhino"},
+        {id: 5, image: "http://lorempixel.com/output/animals-q-c-200-200-6.jpg", guessed: false, contentDescription: "Pig"},
+        {id: 6, image: "http://lorempixel.com/output/animals-q-c-200-200-7.jpg", guessed: false, contentDescription: "Cat"},
+        {id: 7, image: "http://lorempixel.com/output/animals-q-c-200-200-10.jpg", guessed: false, contentDescription: "Horse"},
+        {id: 8, image: "http://lorempixel.com/output/animals-q-c-200-200-8.jpg", guessed: false, contentDescription: "Puppy"},
+        {id: 9, image: "http://lorempixel.com/output/animals-q-c-200-200-9.jpg", guessed: false, contentDescription: "Dog"},
+        {id: 10, image: "http://lorempixel.com/output/nature-q-c-200-200-3.jpg", guessed: false, contentDescription: "Beach"},
+        {id: 11, image: "http://lorempixel.com/output/nature-q-c-200-200-2.jpg", guessed: false, contentDescription: "Sunset"},
       ],
     };
 
@@ -59,17 +59,11 @@ class GameContainer extends React.Component {
     const card = cards.find(card => card.id === id);
 
     const winScore = cards.length;
-
     const alreadyGuessed = card.guessed;
     if (alreadyGuessed) {
       this.resetAndSwitchScreen("loss");
     } else if (this.state.score + 1 === winScore) {
-      const score = this.state.score + 1;
-      this.setState({
-        score: score,
-        highScore: score,
-      });
-      this.resetAndSwitchScreen("win");
+      this.win();
     } else {
       this.guessCorrect(cards, card);
     }
@@ -111,21 +105,11 @@ class GameContainer extends React.Component {
   }
 
   renderCardContainer() {
-    const cards = this.state.cards.map((card) => {
-      return (
-        <GameCard
-          handleClick={this.handleClick}
-          key={card.id}
-          id={card.id}
-          image={card.image}
-        />
-      );
-    });
-
     return (
-      <div className="card-container">
-        {cards}
-      </div>
+      <GameCardContainer
+        cards={this.state.cards}
+        handleClick={this.handleClick}
+      />
     );
   }
 
@@ -159,6 +143,15 @@ class GameContainer extends React.Component {
       cards: shuffle(cards),
       screen: screen,
     });
+  }
+
+  win() {
+    const score = this.state.score + 1;
+    this.setState({
+      score: score,
+      highScore: score,
+    });
+    this.resetAndSwitchScreen("win");
   }
 }
 
