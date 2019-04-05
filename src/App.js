@@ -11,7 +11,7 @@ class App extends React.Component {
 
           <section className="instructions">
             <h2>Instructions</h2>
-            <p>Clicking cards earns points. Avoid choosing any cards already chosen.</p>
+            <p>Clicking cards earns points. But, avoid choosing a card more than once. Try and choose them all!</p>
           </section>
         </header>
 

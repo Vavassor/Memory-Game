@@ -40,14 +40,15 @@ class GameContainer extends React.Component {
     this.handleRetry = this.handleRetry.bind(this);
   }
 
-  guessCorrect(cards, card) {
+  guessCorrect(id) {
     this.setState((state, props) => {
       const newScore = state.score + 1;
       const highScore = Math.max(newScore, state.highScore);
+      const card = state.cards.find(card => card.id === id);
       card.guessed = true;
 
       return {
-        cards: shuffle(cards),
+        cards: shuffle(state.cards),
         highScore: highScore,
         score: newScore,
       };
@@ -57,7 +58,6 @@ class GameContainer extends React.Component {
   handleClick(id) {
     const cards = this.state.cards;
     const card = cards.find(card => card.id === id);
-
     const winScore = cards.length;
     const alreadyGuessed = card.guessed;
     if (alreadyGuessed) {
@@ -65,7 +65,7 @@ class GameContainer extends React.Component {
     } else if (this.state.score + 1 === winScore) {
       this.win();
     } else {
-      this.guessCorrect(cards, card);
+      this.guessCorrect(id);
     }
   }
 
@@ -134,22 +134,26 @@ class GameContainer extends React.Component {
   }
 
   resetAndSwitchScreen(screen) {
-    const cards = this.state.cards;
-    for (const card of cards) {
-      card.guessed = false;
-    }
+    this.setState((state, props) => {
+      const cards = state.cards;
+      for (const card of cards) {
+        card.guessed = false;
+      }
 
-    this.setState({
-      cards: shuffle(cards),
-      screen: screen,
+      return {
+        cards: shuffle(cards),
+        screen: screen,
+      };
     });
   }
 
   win() {
-    const score = this.state.score + 1;
-    this.setState({
-      score: score,
-      highScore: score,
+    this.setState((state, props) => {
+      const score = state.score + 1;
+      return {
+        score: score,
+        highScore: score,
+      };
     });
     this.resetAndSwitchScreen("win");
   }

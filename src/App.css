@@ -1,3 +1,11 @@
+h1 {
+  background-color: #b1001d;
+  color: #ffffff;
+  font-family: "Baloo Chettan", sans-serif;
+  margin: 0;
+  padding: .5em 0;
+}
+
 header {
   text-align: center;
 }
@@ -20,15 +28,20 @@ header {
 }
 
 .game-card {
-  background-color: transparent;
-  border: none;
-  display: block;
   min-height: 0;
   min-width: 0;
   max-width: 30vh;
   overflow: hidden;
   padding: 0;
-  text-align: center;
+  transition: transform .2s;
+}
+
+.game-card:focus {
+  outline: .15em dotted black;
+}
+
+.game-card:hover {
+  transform: scale(1.1);
 }
 
 .game-card-image {
@@ -61,15 +74,19 @@ header {
 }
 
 .instructions {
-  background-color: #efefef;
+  background-color: #ffe8b7;
   padding: 2em;
 }
 
 .retry {
+  background-color: #b1001d;
   border-radius: .3em;
   border: none;
+  color: #ffffff;
   font-size: 1em;
+  font-weight: 400;
   padding: .375em .75em;
+  line-height: 1.5;
 }
 
 .end-screen-indicator {
